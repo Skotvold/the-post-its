@@ -85,6 +85,7 @@ public class ControllerGrabObject : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        // If the trigger is down, grab an object.
         if (mController.GetHairTriggerDown())
         {
            
@@ -94,7 +95,7 @@ public class ControllerGrabObject : MonoBehaviour {
             }
         }
 
-        // 2
+        // If the trigger is released, release the object.
         if (mController.GetHairTriggerUp())
         {
             if (objectInHand)
