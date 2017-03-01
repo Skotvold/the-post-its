@@ -83,7 +83,24 @@ public class ControllerGrabObject : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update()
+    {
+        if (mController.GetHairTriggerDown())
+        {
+           
+            if (collidingObject)
+            {
+                GrabObject();
+            }
+        }
+
+        // 2
+        if (mController.GetHairTriggerUp())
+        {
+            if (objectInHand)
+            {
+                ReleaseObject();
+            }
+        }
+    }
 }
