@@ -16,6 +16,7 @@ public class ControllerGrabObject : MonoBehaviour {
     void Awake()
     {
         mTrackedObj = GetComponent<SteamVR_TrackedObject>();
+
     }
 
     private void SetCollidingObject(Collider col)
@@ -28,6 +29,7 @@ public class ControllerGrabObject : MonoBehaviour {
      
         collidingObject = col.gameObject;
     }
+
 
 
     public void OnTriggerEnter(Collider other)
@@ -75,8 +77,12 @@ public class ControllerGrabObject : MonoBehaviour {
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
 
-            objectInHand.GetComponent<Rigidbody>().velocity = mController.velocity;
-            objectInHand.GetComponent<Rigidbody>().angularVelocity = mController.angularVelocity;
+            if (objectInHand.gameObject.tag != "StaticVR")
+            {
+                objectInHand.GetComponent<Rigidbody>().velocity = mController.velocity;
+                objectInHand.GetComponent<Rigidbody>().angularVelocity = mController.angularVelocity;
+            }
+
         }
 
         objectInHand = null;
