@@ -21,6 +21,8 @@ public class laserPointer : MonoBehaviour
     public LayerMask teleportMask;
     private bool shouldTeleport;
 
+
+
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
@@ -59,22 +61,29 @@ public class laserPointer : MonoBehaviour
         // for the teleprt
         reticle = Instantiate(teleportReticlePrefab);
         teleportReticleTransform = reticle.transform;
+
+        
+
     }
 
     // Update is called once per frame
     void Update ()
     {
+        RaycastHit hit2;
+        Physics.Raycast(trackedObj.transform.position, transform.forward, out hit2, 100, teleportMask);
+        hitPoint = hit2.point;
+        ShowLaser(hit2);
 
         if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
         {
             RaycastHit hit;
 
-        
+
             if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask))
             {
                 hitPoint = hit.point;
                 ShowLaser(hit);
-                
+
                 // teleport
                 reticle.SetActive(true);
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
@@ -94,6 +103,8 @@ public class laserPointer : MonoBehaviour
         {
             Teleport();
         }
+
+
 
     }
 }
