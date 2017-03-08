@@ -29,7 +29,6 @@ public class ViewFocus : MonoBehaviour
         viewObject.SetActive(true);
         laserTransform.position = Vector3.Lerp(trackedObj.transform.position, hitPoint, .5f);
         laserTransform.LookAt(hitPoint);
-        //laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y, hit.distance);
        
     }
 
