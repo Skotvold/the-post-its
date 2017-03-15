@@ -76,15 +76,10 @@ public class ControllerGrabObject : MonoBehaviour {
         {
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
-
-            if (objectInHand.gameObject.tag != "StaticVR")
-            {
-                objectInHand.GetComponent<Rigidbody>().velocity = mController.velocity;
-                objectInHand.GetComponent<Rigidbody>().angularVelocity = mController.angularVelocity;
-            }
-
         }
 
+        objectInHand.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        objectInHand.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         objectInHand = null;
     }
 
