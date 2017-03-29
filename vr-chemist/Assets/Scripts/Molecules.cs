@@ -3,138 +3,103 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Atom : MonoBehaviour
+public class Binding : MonoBehaviour
 {
+    public GameObject reference = null;
+    public int id = 0;
+    public int numberOfConnections = 0;
 
-    public GameObject reference;
-    public int id;
-
-    Atom()
+    public Binding(GameObject obj, int p_id)
     {
+        reference = obj;
+        id = p_id;
+    }
 
+
+    public GameObject getReference()
+    {
+        return reference;
+    }
+
+    public int getID()
+    {
+        return id;
+    }
+
+    public void setConnection(int connection)
+    {
+       
     }
 
 }
 
-//{
-//    Dictionary<GameObject, Atom>
+    public class Atom : MonoBehaviour
+{
 
-    //public Atom(int i)
-    //{
-    //    numberOfConnections = 1;
-    //    next = null;
-    //    updateID();
-    //    personalID = i;
-    //}
+    public GameObject reference = null;
+    public int id = 0;
 
-    
+    public Atom(GameObject obj, int p_id)
+    {
+        reference = obj;
+        id = p_id;
+    }
 
-    //public void setMaxConnections(int num)
-    //{
-    //    numberOfConnections = num;
-    //}
 
-    //public void updateConnections(Atom atom)
-    //{
-    //    if (next.Count < numberOfConnections)
-    //    {
-    //        next.Add(atom);
-    //    }
-    //}
-
-   
-
-    //public int getID()
-    //{
-    //    return personalID;
-    //}
+    public GameObject getReference()
+    {
+       
+        return reference;
+    }
+}
 
 
 
-    //public void setReference(GameObject obj)
-    //{
-    //    reference = obj;
-        
-    //}
-
-    //public GameObject getReference()
-    //{
-    //    return reference;
-    //}
-
-
-
-
-    //void OnDestroy()
-    //{
-    //    decrementID();
-    //    next.Clear();
-    //    next = null;
-    //}
-
-
-
-
-
-    //private void updateID()
-    //{
-    //    ID++;
-    //}
-
-    //private void decrementID()
-    //{
-    //    ID--;
-    //}
-
-//}
 
 
 public class Molecules : MonoBehaviour {
-    public Dictionary<int, GameObject> molecules = new Dictionary<int, GameObject>();
-    public int id;
-    //spublic List<GameObject> molecules;
-   
+    List<Atom> atomList = new List<Atom>();
+    List<Binding> bindingList = new List<Binding>();
+    int objectID = 0;
 
     public void Awake()
     {
-        id = 0;
+
         foreach (GameObject i in GameObject.FindGameObjectsWithTag("StaticVR"))
         {
-
-            molecules[id++] = i;
+            Atom atom = null;
+            atom = new Atom(i,objectID++);
+            atomList.Add(atom);
         }
 
         foreach (GameObject i in GameObject.FindGameObjectsWithTag("Binding"))
         {
-            molecules[id++] = i;
+            Binding binding = null;
+            binding = new Binding(i, objectID++);
+            bindingList.Add(binding);
         }
+
     }
     public void print()
     {
-     
+
     }
 
 	public void stopMovement()
     {
 
-        for (int i = 0; i < molecules.Count; i++)
+
+        for(int i = 0; i < atomList.Count; i++)
         {
-            molecules[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
-            molecules[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            atomList[i].getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
+            atomList[i].getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
 
-        //foreach (GameObject i in GameObject.FindGameObjectsWithTag("StaticVR"))
-        //{
-        //    i.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //    i.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        //}
-
-
-        //foreach (GameObject i in GameObject.FindGameObjectsWithTag("Binding"))
-        //{
-        //    i.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //    i.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        //}
+        for (int i = 0; i < bindingList.Count; i++)
+        {
+            bindingList[i].getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
+            bindingList[i].getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
     }
 
  
