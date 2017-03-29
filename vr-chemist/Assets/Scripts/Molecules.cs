@@ -26,9 +26,16 @@ public class Binding : MonoBehaviour
         return id;
     }
 
-    public void setConnection(int connection)
+    public int getConnections()
     {
-       
+        return numberOfConnections;
+        Debug.Log(numberOfConnections);
+    }
+
+    public void setConnections(int connections)
+    {
+        numberOfConnections = connections;
+        Debug.Log(numberOfConnections);
     }
 
 }
@@ -62,13 +69,16 @@ public class Molecules : MonoBehaviour {
     List<Binding> bindingList = new List<Binding>();
     int objectID = 0;
 
+    //Dictionary<int, Atom> atomList = new Dictionary<int, Atom>();
+    //Dictionary<int, Binding> bindingList = new Dictionary<int, Binding>();
+
     public void Awake()
     {
 
         foreach (GameObject i in GameObject.FindGameObjectsWithTag("StaticVR"))
         {
             Atom atom = null;
-            atom = new Atom(i,objectID++);
+            atom = new Atom(i, objectID++);
             atomList.Add(atom);
         }
 
@@ -100,6 +110,18 @@ public class Molecules : MonoBehaviour {
             bindingList[i].getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
             bindingList[i].getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
+    }
+
+    public int GetBindingConnections(int ID)
+    {
+        Binding binding = bindingList[ID];
+        return binding.getConnections();
+    }
+
+    public void SetBindingConnections(int connections, int ID)
+    {
+        Binding binding = bindingList[ID];
+        binding.setConnections(connections);
     }
 
  
