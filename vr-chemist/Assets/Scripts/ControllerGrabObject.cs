@@ -80,6 +80,10 @@ public class ControllerGrabObject : MonoBehaviour {
 
         objectInHand.GetComponent<Rigidbody>().velocity = Vector3.zero;
         objectInHand.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+        GameObject go = GameObject.Find("SingletonController");
+        Molecules other = (Molecules)go.GetComponent(typeof(Molecules));
+        other.stopMovement();
         objectInHand = null;
     }
 

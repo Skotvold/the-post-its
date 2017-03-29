@@ -5,88 +5,139 @@ using UnityEngine;
 
 public class Atom : MonoBehaviour
 {
-    public int numberOfConnections;
-    public int hasConnected;
-    public List<Atom> next;
-    public static int ID = 0;
-    private int personalID;
-    GameObject reference;
 
-    public Atom()
+    public GameObject reference;
+    public int id;
+
+    Atom()
     {
-        numberOfConnections = 1;
-        next = null;
-        updateID();
-        personalID = ID;
+
     }
+
+}
+
+//{
+//    Dictionary<GameObject, Atom>
+
+    //public Atom(int i)
+    //{
+    //    numberOfConnections = 1;
+    //    next = null;
+    //    updateID();
+    //    personalID = i;
+    //}
 
     
 
-    public void setMaxConnections(int num)
-    {
-        numberOfConnections = num;
-    }
+    //public void setMaxConnections(int num)
+    //{
+    //    numberOfConnections = num;
+    //}
 
-    public void updateConnections(Atom atom)
-    {
-        if (next.Count < numberOfConnections)
-        {
-            next.Add(atom);
-        }
-    }
+    //public void updateConnections(Atom atom)
+    //{
+    //    if (next.Count < numberOfConnections)
+    //    {
+    //        next.Add(atom);
+    //    }
+    //}
 
-    public void setReference(GameObject obj)
-    {
-        reference = obj;
-    }
+   
 
-    public int getID()
-    {
-        return personalID;
-    }
+    //public int getID()
+    //{
+    //    return personalID;
+    //}
 
-    void OnDestroy()
-    {
-        decrementID();
-        next.Clear();
-        next = null;
-    }
 
-    private void updateID()
-    {
-        ID++;
-    }
 
-    private void decrementID()
-    {
-        ID--;
-    }
-}
+    //public void setReference(GameObject obj)
+    //{
+    //    reference = obj;
+        
+    //}
+
+    //public GameObject getReference()
+    //{
+    //    return reference;
+    //}
+
+
+
+
+    //void OnDestroy()
+    //{
+    //    decrementID();
+    //    next.Clear();
+    //    next = null;
+    //}
+
+
+
+
+
+    //private void updateID()
+    //{
+    //    ID++;
+    //}
+
+    //private void decrementID()
+    //{
+    //    ID--;
+    //}
+
+//}
+
 
 public class Molecules : MonoBehaviour {
-
-    public List<Atom> molecules;
+    public Dictionary<int, GameObject> molecules = new Dictionary<int, GameObject>();
+    public int id;
+    //spublic List<GameObject> molecules;
    
 
     public void Awake()
     {
+        id = 0;
         foreach (GameObject i in GameObject.FindGameObjectsWithTag("StaticVR"))
         {
-            Atom temp = null;
-            temp = new Atom();
-            temp.setReference(i);
-            molecules.Add(temp);
+
+            molecules[id++] = i;
+        }
+
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Binding"))
+        {
+            molecules[id++] = i;
         }
     }
     public void print()
     {
-        foreach (Atom i in molecules)
-        {
-            Debug.Log("Atom: " + i.getID());
-        }
+     
     }
 
-	
+	public void stopMovement()
+    {
+
+        for (int i = 0; i < molecules.Count; i++)
+        {
+            molecules[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+            molecules[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+
+        //foreach (GameObject i in GameObject.FindGameObjectsWithTag("StaticVR"))
+        //{
+        //    i.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //    i.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        //}
+
+
+        //foreach (GameObject i in GameObject.FindGameObjectsWithTag("Binding"))
+        //{
+        //    i.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //    i.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        //}
+    }
+
+ 
     // Use this for initialization
 	void Start ()
     {
@@ -96,6 +147,6 @@ public class Molecules : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        print();
+  
 	}
 }
