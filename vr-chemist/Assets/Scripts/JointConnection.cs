@@ -18,18 +18,23 @@ public class JointConnection : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         //Comment out this and "connections" to test without Dictionary
-        GameObject go = GameObject.Find("SingletonController");
-        Molecules other = (Molecules)go.GetComponent(typeof(Molecules));
-        int connections = other.GetBindingConnections(gameObject.GetInstanceID());
+        //GameObject go = GameObject.Find("SingletonController");
+        //Molecules other = (Molecules)go.GetComponent(typeof(Molecules));
+        //int connections = other.GetBindingConnections(gameObject.GetInstanceID());
 
-        if (collision.gameObject.tag == "StaticVR" && connections < 2)
+        //if (collision.gameObject.tag == "StaticVR" && connections < 2)
+        //{
+        //    AddFixedJoint(collision.gameObject, connections);
+        //    other.SetBindingConnections(connections++, gameObject.GetInstanceID());
+        //}
+
+        if (collision.gameObject.tag == "StaticVR")
         {
-            AddFixedJoint(collision.gameObject, connections);
-            other.SetBindingConnections(connections++, gameObject.GetInstanceID());
+            AddFixedJoint(collision.gameObject);
         }
     }
 
-    private void AddFixedJoint(GameObject gameObject, int numConnections)
+    private void AddFixedJoint(GameObject gameObject)
     {
         FixedJoint fx = this.gameObject.AddComponent<FixedJoint>();
         fx.breakForce = 2000;

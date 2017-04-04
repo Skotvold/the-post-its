@@ -15,6 +15,12 @@ public class Binding : MonoBehaviour
         id = p_id;
     }
 
+    //Dictionary attempt
+    //public Binding(GameObject obj)
+    //{
+    //    reference = obj;
+    //}
+
 
     public GameObject getReference()
     {
@@ -52,10 +58,15 @@ public class Binding : MonoBehaviour
         id = p_id;
     }
 
+    //Dictionary attempt
+    //public Atom(GameObject obj)
+    //{
+    //    reference = obj;
+    //}
+
 
     public GameObject getReference()
     {
-       
         return reference;
     }
 }
@@ -69,6 +80,7 @@ public class Molecules : MonoBehaviour {
     List<Binding> bindingList = new List<Binding>();
     int objectID = 0;
 
+    //Dictionary attempt
     //Dictionary<int, Atom> atomList = new Dictionary<int, Atom>();
     //Dictionary<int, Binding> bindingList = new Dictionary<int, Binding>();
 
@@ -89,6 +101,18 @@ public class Molecules : MonoBehaviour {
             bindingList.Add(binding);
         }
 
+        ////Dictionary attempt
+        //foreach (GameObject i in GameObject.FindGameObjectsWithTag("StaticVR"))
+        //{
+        //    Atom atom = new Atom(i);
+        //    atomList.Add(i.GetInstanceID(), atom);
+        //}
+
+        //foreach (GameObject i in GameObject.FindGameObjectsWithTag("Binding"))
+        //{
+        //    Binding binding = new Binding(i);
+        //    bindingList.Add(i.GetInstanceID(), binding);
+        //}
     }
     public void print()
     {
@@ -110,6 +134,18 @@ public class Molecules : MonoBehaviour {
             bindingList[i].getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
             bindingList[i].getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
+
+        //Dictionary attempt
+        //foreach (Atom i in atomList.Values)
+        //{
+        //    i.getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //    i.getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        //}
+        //foreach (Binding i in bindingList.Values)
+        //{
+        //    i.getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //    i.getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        //}
     }
 
     public int GetBindingConnections(int ID)
