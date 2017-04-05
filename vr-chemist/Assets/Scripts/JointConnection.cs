@@ -29,6 +29,8 @@ public class JointConnection : MonoBehaviour {
         }
 
 
+
+
     }
 
     private void AddFixedJoint(GameObject connectedObject, int connections)
@@ -36,9 +38,17 @@ public class JointConnection : MonoBehaviour {
         FixedJoint fx = this.gameObject.AddComponent<FixedJoint>();
         fx.breakForce = 2000;
         fx.breakTorque = 2000;
-        
+        fx.autoConfigureConnectedAnchor = true;
+
+
+
+        //connectedObject.transform.position = new Vector3(xRight,this.transform.position.y,this.transform.position.z);
+        //connectedObject.transform.position = newPos;
         fx.connectedBody = connectedObject.GetComponent<Rigidbody>();
-        fx.enableCollision = true;
+       
+
+
+        // fx.connectedAnchor = Vector3.zero;
 
     }
 
@@ -67,3 +77,39 @@ public class JointConnection : MonoBehaviour {
 
 
 }
+
+
+//float xRight =  transform.TransformPoint(this.GetComponent<BoxCollider>().center).x + transform.TransformVector(this.GetComponent<BoxCollider>().size).x/2;
+//Debug.Log(this.transform.position.x + " ,  " + transform.TransformPoint(this.GetComponent<BoxCollider>().center).x + " , " + transform.TransformVector(this.GetComponent<BoxCollider>().size).x);
+//Debug.Log(xRight);
+
+//float xLeft = transform.TransformPoint(this.GetComponent<BoxCollider>().center).x - transform.TransformVector(this.GetComponent<BoxCollider>().size).x / 2;
+//Debug.Log(this.transform.position.x + " ,  " + transform.TransformPoint(this.GetComponent<BoxCollider>().center).x + " , " + transform.TransformVector(this.GetComponent<BoxCollider>().size).x/2);
+//Debug.Log(xLeft);
+
+
+
+//if (xLeft > xRight)
+//{
+//    float center = (((xLeft - xRight) / 2) + xRight);
+//    if (connectedObject.gameObject.transform.position.x > center)
+//    {
+//        connectedObject.transform.position = new Vector3(xLeft, this.transform.position.y, this.transform.position.z);
+//    }
+//    else
+//    {
+//        connectedObject.transform.position = new Vector3(xRight, this.transform.position.y, this.transform.position.z);
+//    }
+//}
+//else
+//{
+//    float center = (((xRight - xLeft) / 2) + xLeft);
+//    if (connectedObject.gameObject.transform.position.x < center)
+//    {
+//        connectedObject.transform.position = new Vector3(xLeft, this.transform.position.y, this.transform.position.z);
+//    }
+//    else
+//    {
+//        connectedObject.transform.position = new Vector3(xRight, this.transform.position.y, this.transform.position.z);
+//    }
+//}
