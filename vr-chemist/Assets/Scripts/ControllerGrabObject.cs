@@ -94,7 +94,7 @@ public class ControllerGrabObject : MonoBehaviour {
         if (mController.GetHairTriggerDown())
         {
            
-            if (collidingObject)
+            if (collidingObject && collidingObject.tag != "Binding")
             {
                 GrabObject();
             }

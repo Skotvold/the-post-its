@@ -4,33 +4,32 @@ using UnityEngine;
 
 public class JointConnection : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    private const int MaxConnections = 1;
+
+    private void FixedUpdate()
     {
-		
-	}
+        //Fixes position of binding endings to binding parent
+        if (name == "Binding_EndR")
+        {
+            gameObject.transform.localPosition = new Vector3(0.5f, 0, 0);
+        }
+        else
+        {
+            gameObject.transform.localPosition = new Vector3(-0.5f, 0, 0);
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Comment out this and "connections" to test without Dictionary
         GameObject go = GameObject.Find("SingletonController");
         Molecules other = (Molecules)go.GetComponent(typeof(Molecules));
-        int connections = other.GetBindingConnections(gameObject.GetInstanceID());
+        int connections = other.GetBindingConnections(gameObject.transform.parent.GetInstanceID());
 
-        if (collision.gameObject.tag == "StaticVR" && connections < 2)
+        if (collision.gameObject.tag == "Atom" && connections < MaxConnections)
         {
             AddFixedJoint(collision.gameObject, connections);
-            other.SetBindingConnections(++connections, gameObject.GetInstanceID());
+            other.SetBindingConnections(++connections, gameObject.transform.parent.GetInstanceID());
         }
-
-
-
-
     }
 
     private void AddFixedJoint(GameObject connectedObject, int connections)
@@ -38,31 +37,17 @@ public class JointConnection : MonoBehaviour {
         FixedJoint fx = this.gameObject.AddComponent<FixedJoint>();
         fx.breakForce = 2000;
         fx.breakTorque = 2000;
+        connectedObject.transform.position = gameObject.transform.localPosition;
         fx.autoConfigureConnectedAnchor = true;
-
-
-
-        //connectedObject.transform.position = new Vector3(xRight,this.transform.position.y,this.transform.position.z);
-        //connectedObject.transform.position = newPos;
         fx.connectedBody = connectedObject.GetComponent<Rigidbody>();
-       
-
-
-        // fx.connectedAnchor = Vector3.zero;
-
     }
 
     void OnJointBreak(float breakForce)
     {
         GameObject go = GameObject.Find("SingletonController");
         Molecules other = (Molecules)go.GetComponent(typeof(Molecules));
-        int connections = other.GetBindingConnections(gameObject.GetInstanceID());
-        other.SetBindingConnections(--connections, gameObject.GetInstanceID());
-    }
-
-    public void StopVelocity ()
-    {
-        StopMovement();
+        int connections = other.GetBindingConnections(gameObject.transform.parent.GetInstanceID());
+        other.SetBindingConnections(--connections, gameObject.transform.parent.GetInstanceID());
     }
 
     private void OnCollisionExit(Collision collision)
@@ -75,10 +60,9 @@ public class JointConnection : MonoBehaviour {
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
-
 }
 
-
+////////////////////////////OLD
 //float xRight =  transform.TransformPoint(this.GetComponent<BoxCollider>().center).x + transform.TransformVector(this.GetComponent<BoxCollider>().size).x/2;
 //Debug.Log(this.transform.position.x + " ,  " + transform.TransformPoint(this.GetComponent<BoxCollider>().center).x + " , " + transform.TransformVector(this.GetComponent<BoxCollider>().size).x);
 //Debug.Log(xRight);

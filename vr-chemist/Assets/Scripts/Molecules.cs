@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+//////////////////////////////////////////////////////////////////////////////////////////
 public class Binding
 {
     public GameObject reference = null;
@@ -13,106 +13,92 @@ public class Binding
         reference = obj;
     }
 
-
-    public GameObject getReference()
+    public GameObject getReference
     {
-        return reference;
+        get { return reference; }
     }
 
-    public int getConnections()
+    public int Connections
     {
-        Debug.Log(numberOfConnections);
-        return numberOfConnections;
+        get { return numberOfConnections; }
+        set { numberOfConnections = value; }
     }
-
-    public void setConnections(int connections)
-    {
-        numberOfConnections = connections;
-        Debug.Log(numberOfConnections);
-    }
-
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
     public class Atom
 {
-
+    public enum atomType { Hydrogen, Helium, Oxygen, Carbon };
+    private atomType thisAtom;
     public GameObject reference = null;
 
-    public Atom(GameObject obj)
+    public Atom(GameObject obj, string type)
     {
         reference = obj;
+        switch (type)
+        {
+            case "Hydrogen": thisAtom = atomType.Hydrogen; break;
+            case "Oxygen": thisAtom = atomType.Oxygen; break;
+            case "Carbon": thisAtom = atomType.Carbon; break;
+            default: thisAtom = atomType.Hydrogen; break;
+        }
     }
 
-
-    public GameObject getReference()
+    public atomType ThisAtom
     {
-        return reference;
+        get { return thisAtom; }
+    }
+
+    public GameObject Reference
+    {
+        get { return reference; }
     }
 }
 
 
-
-
-
+////////////////////////////////////////////////////////////////////////////////////////
 public class Molecules : MonoBehaviour {
     Dictionary<int, Atom> atomList = new Dictionary<int, Atom>();
     Dictionary<int, Binding> bindingList = new Dictionary<int, Binding>();
 
     public void Awake()
     {
-        foreach (GameObject i in GameObject.FindGameObjectsWithTag("StaticVR"))
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Atom"))
         {
-            Atom atom = new Atom(i);
+            Atom atom = new Atom(i, i.transform.GetChild(0).tag);
             atomList.Add(i.GetInstanceID(), atom);
         }
 
-        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Binding"))
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("InterBinding"))
         {
             Binding binding = new Binding(i);
             bindingList.Add(i.GetInstanceID(), binding);
         }
-    }
-    public void print()
-    {
-
     }
 
 	public void stopMovement()
     {
         foreach (Atom i in atomList.Values)
         {
-            i.getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
-            i.getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            i.Reference.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            i.Reference.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
         foreach (Binding i in bindingList.Values)
         {
-            i.getReference().GetComponent<Rigidbody>().velocity = Vector3.zero;
-            i.getReference().GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            i.getReference.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            i.getReference.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
     }
 
     public int GetBindingConnections(int ID)
     {
         Binding binding = bindingList[ID];
-        return binding.getConnections();
+        return binding.Connections;
     }
 
     public void SetBindingConnections(int connections, int ID)
     {
         Binding binding = bindingList[ID];
-        binding.setConnections(connections);
+        binding.Connections = connections;
     }
-
- 
-    // Use this for initialization
-	void Start ()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-  
-	}
 }
