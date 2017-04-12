@@ -11,11 +11,11 @@ public class JointConnection : MonoBehaviour {
         //Fixes position of binding endings to binding parent
         if (name == "Binding_EndR")
         {
-            gameObject.transform.localPosition = new Vector3(0.5f, 0, 0);
+            transform.localPosition = new Vector3(0.5f, 0, 0);
         }
         else
         {
-            gameObject.transform.localPosition = new Vector3(-0.5f, 0, 0);
+            transform.localPosition = new Vector3(-0.5f, 0, 0);
         }
     }
 
@@ -23,22 +23,23 @@ public class JointConnection : MonoBehaviour {
     {
         GameObject go = GameObject.Find("SingletonController");
         Molecules other = (Molecules)go.GetComponent(typeof(Molecules));
-        int connections = other.GetBindingConnections(gameObject.transform.parent.GetInstanceID());
+        int connections = other.GetBindingConnections(gameObject.GetInstanceID());
 
         if (collision.gameObject.tag == "Atom" && connections < MaxConnections)
         {
             AddFixedJoint(collision.gameObject, connections);
-            other.SetBindingConnections(++connections, gameObject.transform.parent.GetInstanceID());
+            other.SetBindingConnections(++connections, gameObject.GetInstanceID());
         }
     }
 
     private void AddFixedJoint(GameObject connectedObject, int connections)
     {
-        FixedJoint fx = this.gameObject.AddComponent<FixedJoint>();
+        FixedJoint fx = gameObject.AddComponent<FixedJoint>();
         fx.breakForce = 2000;
         fx.breakTorque = 2000;
-        connectedObject.transform.position = gameObject.transform.localPosition;
+        connectedObject.transform.position = transform.position;
         fx.autoConfigureConnectedAnchor = true;
+        fx.enableCollision = false;
         fx.connectedBody = connectedObject.GetComponent<Rigidbody>();
     }
 
@@ -46,8 +47,9 @@ public class JointConnection : MonoBehaviour {
     {
         GameObject go = GameObject.Find("SingletonController");
         Molecules other = (Molecules)go.GetComponent(typeof(Molecules));
-        int connections = other.GetBindingConnections(gameObject.transform.parent.GetInstanceID());
-        other.SetBindingConnections(--connections, gameObject.transform.parent.GetInstanceID());
+        int connections = other.GetBindingConnections(gameObject.GetInstanceID());
+        other.SetBindingConnections(--connections, gameObject.GetInstanceID());
+        gameObject.GetComponent<FixedJoint>().enableCollision = true;
     }
 
     private void OnCollisionExit(Collision collision)

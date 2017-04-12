@@ -69,7 +69,7 @@ public class Molecules : MonoBehaviour {
             atomList.Add(i.GetInstanceID(), atom);
         }
 
-        foreach (GameObject i in GameObject.FindGameObjectsWithTag("InterBinding"))
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Binding"))
         {
             Binding binding = new Binding(i);
             bindingList.Add(i.GetInstanceID(), binding);
