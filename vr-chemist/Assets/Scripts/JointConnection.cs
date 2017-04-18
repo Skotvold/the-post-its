@@ -101,6 +101,11 @@ public class JointConnection : MonoBehaviour {
         
         }
         
+        else if (collision.gameObject.name != "Controller (right)" && collision.gameObject.name != "Controller(left)")
+        {
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
+        }
     }
 
     private FixedJoint AddFixedJoint(GameObject connectedObject, int connections)
@@ -155,6 +160,8 @@ public class JointConnection : MonoBehaviour {
         if (fixedJoint_left == null)
             hasConnectionLeft = false;
 
+        GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
     }
 
     private void OnCollisionExit(Collision collision)
